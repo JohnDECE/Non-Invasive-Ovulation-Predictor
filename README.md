@@ -24,7 +24,7 @@ https://lucid.app/lucidchart/262ba8cf-6c0f-488d-a46f-fd511e4fd590/edit?viewport_
 - Thermal Camera: Camera works over a variety of distances. Camera is able to work in different sleeping positions.
 
 ### Software Requirements
-- Thermal Camera: Algorithm is able to throw away bad data vs. good data and will be able to differntiate between the two. 
+- Thermal Camera: Algorithm is able to throw away bad data vs. good data and will be able to differentiate between the two. 
 - Model: Model learns and trains with the specific user, and is able to gain accuracy over time.
 - Connectivity: System is able to wirelessly transmit the prediction score to a front end GUI (This is an app if time permits)
 
