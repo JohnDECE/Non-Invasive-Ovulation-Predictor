@@ -7,8 +7,10 @@ Many women track ovulation through the use of online apps or self tracking metho
  Seek Thermal Camera, Embedded Platform, Desktop App (Time Permitting)
  
 ### Design Goals
+Our design goals are to implement thermal cameras to track the body temperature of someone sleeping. Based on collected data we will analyze and process relevant features. We will then develop a model for the user that allows them to be able to track ovulation based on temperature feedback during sleep.
 
 ### Deliverables
+We will determine the accuracy of thermal cameras in detecting change in temperature over varying distances. Alongside distance, we will incorporate data and research based on the coverage of the sleeper, whether it be heavy/light clothing or blankets that may affect accurate thermal detection. Finally we will use thermal data to see how long our model takes to accurately predict ovulation, if at all. If this is possible, we will project a timeline to see if this prediction is able to improve over time.
 
 ### System Block Diagrams
 
@@ -27,6 +29,7 @@ Brendan & Will: Building enclosure, setting up hardware, testing hardware, Wirel
 John & Alina: Thermal Camera software, training of model for predictive score
 
 ### Project Timeline
+
 
 ### References
 • Detection and prediction of ovulation from body temperature measured by an in-ear wearable
