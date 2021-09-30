@@ -10,7 +10,9 @@ Many women track ovulation through the use of online apps or self tracking metho
 Our design goals are to implement thermal cameras to track the body temperature of someone sleeping. Based on collected data we will analyze and process relevant features. We will then develop a model for the user that allows them to be able to track ovulation based on temperature feedback during sleep.
 
 ### Deliverables
-We will determine the accuracy of thermal cameras in detecting change in temperature over varying distances. Alongside distance, we will incorporate data and research based on the coverage of the sleeper, whether it be heavy/light clothing or blankets that may affect accurate thermal detection. Finally we will use thermal data to see how long our model takes to accurately predict ovulation, if at all. If this is possible, we will project a timeline to see if this prediction is able to improve over time.
+- We will determine the accuracy of thermal cameras in detecting change in temperature over varying distances. 
+- Alongside distance, we will incorporate data and research based on the coverage of the sleeper, whether it be heavy/light clothing or blankets that may affect accurate thermal detection. 
+- Finally we will use thermal data to see how long our model takes to accurately predict ovulation, if at all. If this is possible, we will project a timeline to see if this prediction is able to improve over time.
 
 ### System Block Diagrams
 
@@ -24,7 +26,7 @@ https://lucid.app/lucidchart/262ba8cf-6c0f-488d-a46f-fd511e4fd590/edit?viewport_
 - Thermal Camera: Camera works over a variety of distances. Camera is able to work in different sleeping positions.
 
 ### Software Requirements
-- Thermal Camera: Algorithm is able to throw away bad data vs. good data and will be able to differentiate between the two. 
+- Thermal Camera: Be able to identify then filter bad data (like environmental noise or interference).
 - Model: Model learns and trains with the specific user, and is able to gain accuracy over time.
 - Connectivity: System is able to wirelessly transmit the prediction score to a front end GUI (This is an app if time permits)
 
