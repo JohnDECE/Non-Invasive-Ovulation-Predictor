@@ -12,9 +12,19 @@ Many women track ovulation through the use of online apps or self tracking metho
 
 ### System Block Diagrams
 
-### Hardware / Software Requirements
+### Hardware Requirements
+Mobile: System can be setup in most envionrments and is easy to mount.
+Efficient: System is not power hungry and can go lengths beetween charging. (Is this correct?!)
+Thermal Camera: Camera works over a variety of distances. Camera is able to work in different sleeping positions.
+
+### Software Requirements
+Thermal Camera: Algorithm is able to throw away bad data vs. good data and will be able to differntiate between the two. 
+Model: Model learns and trains with the specific user, and is able to gain accuracy over time.
+Connectivity: System is able to wirelessly transmit the prediction score to a front end GUI (This is an app if time permits)
 
 ### Team Member Responsibilities
+Brendan & Will: Building enclosure, setting up hardware, testing hardware, (App time permitting)
+John & Alina: Thermal Camera software, training of model for predictive score
 
 ### Project Timeline
 
