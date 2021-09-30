@@ -29,8 +29,8 @@ https://lucid.app/lucidchart/262ba8cf-6c0f-488d-a46f-fd511e4fd590/edit?viewport_
 - Connectivity: System is able to wirelessly transmit the prediction score to a front end GUI (This is an app if time permits)
 
 ### Team Member Responsibilities
-Brendan & Will: Building enclosure, setting up hardware, testing hardware, Wireless communication to front end GUI (App time permitting),
-John & Alina: Thermal Camera software, training of model for predictive score
+- Brendan & Will: Building enclosure, setting up hardware, testing hardware, Wireless communication to front end GUI (App time permitting),
+- John & Alina: Thermal Camera software, training of model for predictive score
 
 ### Project Timeline
 
