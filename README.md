@@ -17,7 +17,7 @@ Our design goals are to implement thermal cameras to track the body temperature 
 ### System Block Diagrams
 
 #### Software Block Diagram
-[Ovulation Predictor Software Block Diagram](https://lucid.app/lucidchart/262ba8cf-6c0f-488d-a46f-fd511e4fd590/edit?viewport_loc=60%2C-34%2C1707%2C779%2C0_0&invitationId=inv_3d2bec2d-08d7-41fe-a1dc-6a36ba7419f9)
+[Ovulation Predictor Software Block Diagram](https://imgur.com/a/CX2TSU3)
 
 ### Hardware Requirements
 - Mobile: System can be setup in most envionrments and is easy to mount.
