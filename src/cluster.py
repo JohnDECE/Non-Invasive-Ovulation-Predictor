@@ -3,6 +3,7 @@ import os
 from tkinter import Tk, filedialog
 from skimage.io import imread
 import matplotlib.pyplot as plt
+import numpy as np
 
 class clusterMaker:
     def __init__(self, directory):
@@ -20,13 +21,32 @@ class clusterMaker:
 
         img = imread(path)
 
+        #test = img.copy()
+
+        #test = test.reshape((-1,3))
+
         reshaped = img.reshape(img.shape[0] * img.shape[1], img.shape[2])
 
-        kmeans = KMeans(n_clusters=5, random_state=0).fit(reshaped)
+        kmeans = KMeans(n_clusters=2, random_state=0).fit(reshaped)
 
         clustered = kmeans.cluster_centers_[kmeans.labels_]
 
-        clustered_3D = clustered.reshape(img.shape[0], img.shape[1], img.shape[2])
+        # print(np.mean(kmeans.cluster_centers_[1]))
+        # blah = clustered.copy()
+        # blah = blah.reshape((-1, 3))
+        # blah[kmeans.labels_ == 1] = [0,0,0]
+        # blah = blah.reshape(img.shape).astype('uint8')
+        # print(np.mean(blah))
+        # plt.figure()
+        # plt.imshow(blah.astype('uint8'))
+        #print(kmeans.labels_.shape)
+        #test[kmeans.labels_ == 1] = [0, 0, 0]
+        #test = test.reshape(img.shape)
+        #print(np.mean(test))
+        clustered_3D = clustered.reshape(img.shape)
+
+        #plt.figure()
+        #plt.imshow(test.astype('uint8'))
 
         return img, clustered_3D
 
@@ -52,7 +72,7 @@ def main():
     plt.imshow(clusteredimg.astype('uint8'))
     # plt.title("clustered")
     plt.axis('off')
-    plt.savefig("test.png", bbox_inches='tight', pad_inches=0)
+    #plt.savefig("test.png", bbox_inches='tight', pad_inches=0)
     plt.show()
 
 
