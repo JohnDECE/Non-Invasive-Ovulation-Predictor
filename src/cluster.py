@@ -27,18 +27,22 @@ class clusterMaker:
 
         reshaped = img.reshape(img.shape[0] * img.shape[1], img.shape[2])
 
-        kmeans = KMeans(n_clusters=2, random_state=0).fit(reshaped)
+        kmeans = KMeans(n_clusters=5, random_state=0).fit(reshaped)
 
         clustered = kmeans.cluster_centers_[kmeans.labels_]
-
+        print(kmeans.cluster_centers_)
+        print(kmeans.cluster_centers_.min(axis=0))
+        clusterind = np.mean(kmeans.cluster_centers_.argmin(axis=0))
+        print()
         # print(np.mean(kmeans.cluster_centers_[1]))
-        # blah = clustered.copy()
-        # blah = blah.reshape((-1, 3))
-        # blah[kmeans.labels_ == 1] = [0,0,0]
-        # blah = blah.reshape(img.shape).astype('uint8')
+        blah = clustered.copy()
+        blah = blah.reshape((-1, 3))
+        #blah[kmeans.labels_ == kmeans.cluster_centers_.argmin()] = [0,0,0]
+        blah[kmeans.labels_ == 1] = [0,0,0]
+        blah = blah.reshape(img.shape).astype('uint8')
         # print(np.mean(blah))
-        # plt.figure()
-        # plt.imshow(blah.astype('uint8'))
+        plt.figure()
+        plt.imshow(blah.astype('uint8'))
         #print(kmeans.labels_.shape)
         #test[kmeans.labels_ == 1] = [0, 0, 0]
         #test = test.reshape(img.shape)
