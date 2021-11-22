@@ -1,58 +1,81 @@
 from sklearn.cluster import KMeans
 import os
 from tkinter import Tk, filedialog
-from skimage.io import imread
-import matplotlib.pyplot as plt
-import numpy as np
+from skimage.io import imread, imsave
+import imghdr
 
 class clusterMaker:
     def __init__(self, directory):
-        assert os.path.isdir(directory)
+        assert os.path.isdir(directory) # Make sure that we actually received a directory, TODO: This may cause errors, may need to check then alert instead
         self.directory = directory
-        self.fileList = os.listdir(self.directory) # May need to check for other directories and check for file type
+        # Below will store a list of all image file names in self.directory, we will exclude any other entries that are not images
+        self.fileList = [file for file in os.listdir(self.directory) if self.check_dir_filetype(directory, file)]
         # print(self.fileList[0], self.directory)
+    @staticmethod
+    def check_dir_filetype(directory, fileName):
+        path = "/".join([directory, fileName])
+        if os.path.isdir(path): # filename is a directory
+            return False
+        elif imghdr.what(path) is None: # filename is not an image and is not a directory
+            return False
+        else: # Filename is an image file
+            return True
 
-    def cluster(self):
+    def cluster(self, fileInd):
         """
         This function will perform k-means clustering on images.
         :return: Both the original image and clustered version as numpy arrays.
         """
-        path = "/".join([self.directory, self.fileList[0]])
+        path = "/".join([self.directory, self.fileList[fileInd]])
 
         img = imread(path)
 
-        #test = img.copy()
-
-        #test = test.reshape((-1,3))
-
         reshaped = img.reshape(img.shape[0] * img.shape[1], img.shape[2])
 
-        kmeans = KMeans(n_clusters=5, random_state=0).fit(reshaped)
+        kmeans = KMeans(n_clusters=4, random_state=0).fit(reshaped)
 
-        clustered = kmeans.cluster_centers_[kmeans.labels_]
-        print(kmeans.cluster_centers_)
-        print(kmeans.cluster_centers_.min(axis=0))
-        clusterind = np.mean(kmeans.cluster_centers_.argmin(axis=0))
-        print()
-        # print(np.mean(kmeans.cluster_centers_[1]))
-        blah = clustered.copy()
-        blah = blah.reshape((-1, 3))
-        #blah[kmeans.labels_ == kmeans.cluster_centers_.argmin()] = [0,0,0]
-        blah[kmeans.labels_ == 1] = [0,0,0]
-        blah = blah.reshape(img.shape).astype('uint8')
-        # print(np.mean(blah))
-        plt.figure()
-        plt.imshow(blah.astype('uint8'))
-        #print(kmeans.labels_.shape)
-        #test[kmeans.labels_ == 1] = [0, 0, 0]
-        #test = test.reshape(img.shape)
-        #print(np.mean(test))
-        clustered_3D = clustered.reshape(img.shape)
+        tempsum = kmeans.cluster_centers_.sum(axis=1)
+        clusterind = tempsum.argmin() # Retrieve the index of the cluster with the lowest values (coldest pixels)
 
-        #plt.figure()
-        #plt.imshow(test.astype('uint8'))
+        clustered = kmeans.cluster_centers_[kmeans.labels_] #Retrieve the clustered image
+        clustered = clustered.reshape((-1,3)) #reshape back into the H x W, Layers shape
+        clustered[kmeans.labels_ == clusterind] = [0, 0, 0] # Filter out the cold pixels
 
-        return img, clustered_3D
+        clustered_3D = clustered.reshape(img.shape).astype('uint8')
+        # img = img.astype('uint8')
+
+        #return img, clustered_3D
+        return clustered_3D # return the clustered image with the cold pixels removed
+
+    def cluster_directory_images(self):
+        """
+        This is a python generator for clustering images in self.directory.
+        We will process each image in self.directory one by one and each time an image is clustered we yield it like
+        a python generator
+        :return: a generator containing the clustered image
+        """
+        for fileInd in range(len(self.fileList)):
+            yield self.cluster(fileInd)
+
+    def save_images_to_directory(self, imgList, directory=None):
+        """
+        Save the images in imgList as files in directory. If directory is none, then create a default output directory
+        in the directory saved at self.directory
+        :param directory: Defaults to none, a directory to save the images in, must be absolute path
+        :return: The directory that the images were saved at
+        """
+        outdir = "output"
+        if directory is not None:
+            outdir = directory
+
+        DirPath = "/".join([self.directory, outdir])
+        if not os.path.exists(DirPath):
+            os.makedirs(DirPath)
+
+        for ind, img in enumerate(imgList):
+            fileName = "_".join(["clustered", self.fileList[ind]])
+            imsave(os.path.join(DirPath, fileName), img)
+        return DirPath
 
 def main():
     root = Tk()
@@ -66,19 +89,9 @@ def main():
 
     clusterer = clusterMaker(directory)
     print(clusterer.fileList)
-    originalimage, clusteredimg = clusterer.cluster()
+    #originalimage, clusteredimg = clusterer.cluster()
 
-    plt.figure()
-    plt.imshow(originalimage.astype('uint8'))
-    plt.title('original')
+    print(clusterer.save_images_to_directory(clusterer.cluster_directory_images()))
 
-    plt.figure()
-    plt.imshow(clusteredimg.astype('uint8'))
-    # plt.title("clustered")
-    plt.axis('off')
-    #plt.savefig("test.png", bbox_inches='tight', pad_inches=0)
-    plt.show()
-
-
-main()
-
+if __name__ == "__main__":
+    main()
