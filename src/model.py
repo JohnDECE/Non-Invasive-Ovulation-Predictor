@@ -13,6 +13,7 @@ class PredictorModel:
         """
         Loads images from the directory: dataDir
         Images should be clustered, but can accept any directory with images
+        TODO: Filter out bad images as best as possible
         :param dataDir:
         :return:
         """
