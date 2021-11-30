@@ -1,5 +1,5 @@
 from hmmlearn import hmm
-from cluster import clusterMaker
+from fileParser import fileData
 from skimage.io import imread
 import numpy as np
 import os
@@ -16,7 +16,7 @@ class PredictorModel:
         :param dataDir:
         :return:
         """
-        fileList = [file for file in os.listdir(dataDir) if clusterMaker.check_dir_filetype(dataDir, file)]
+        fileList = [fileData(dataDir, file) for file in os.listdir(dataDir) if fileData.check_dir_filetype(dataDir, file)]
         return np.array([np.array(imread(os.path.join(dataDir, file))) for file in fileList])
 
     def train(self):
