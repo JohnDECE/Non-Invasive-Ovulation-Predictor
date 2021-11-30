@@ -2,24 +2,15 @@ from sklearn.cluster import KMeans
 import os
 from tkinter import Tk, filedialog
 from skimage.io import imread, imsave
-import imghdr
+import fileParser
 
 class clusterMaker:
     def __init__(self, directory):
         assert os.path.isdir(directory) # Make sure that we actually received a directory, TODO: This may cause errors, may need to check then alert instead
         self.directory = directory
         # Below will store a list of all image file names in self.directory, we will exclude any other entries that are not images
-        self.fileList = [file for file in os.listdir(self.directory) if self.check_dir_filetype(directory, file)]
+        self.fileList = [file for file in os.listdir(self.directory) if fileParser.fileData.check_dir_filetype(directory, file)]
         # print(self.fileList[0], self.directory)
-    @staticmethod
-    def check_dir_filetype(directory, fileName):
-        path = "/".join([directory, fileName])
-        if os.path.isdir(path): # filename is a directory
-            return False
-        elif imghdr.what(path) is None: # filename is not an image and is not a directory
-            return False
-        else: # Filename is an image file
-            return True
 
     def cluster(self, fileInd):
         """
