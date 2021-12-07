@@ -9,7 +9,7 @@ class clusterMaker:
         assert os.path.isdir(directory) # Make sure that we actually received a directory, TODO: This may cause errors, may need to check then alert instead
         self.directory = directory
         # Below will store a list of all image file names in self.directory, we will exclude any other entries that are not images
-        self.fileList = [file for file in os.listdir(self.directory) if fileParser.fileData.check_dir_filetype(directory, file)]
+        self.fileList = [file for file in sorted(os.listdir(self.directory), key=lambda temp: os.path.getmtime(os.path.join(self.directory, temp))) if fileParser.fileData.check_dir_filetype(directory, file)]
         # print(self.fileList[0], self.directory)
 
     def cluster(self, fileInd):
