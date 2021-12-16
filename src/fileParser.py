@@ -2,9 +2,15 @@ import os
 import imghdr
 from datetime import datetime, date
 from tkinter import Tk, filedialog
-import shutil
 
 def sortKey(fileObj):
+    """
+    A helper function that helps with sorting our image files.
+    Assuming the images were recorded using the recorder scripts then the first value after "clustered" (if it is a part of the file name)
+    will indicate the order in which the files were recorded in, thus we sort by that value in ascending order.
+    :param fileObj: A FileData Object
+    :return: That value in the file name as an integer type
+    """
     nameList = fileObj.fileName.split("_")
     if nameList[0] == "clustered":
         return int(nameList[1])
@@ -27,6 +33,13 @@ class directoryData:
         self.fileObjs.sort(key=sortKey)
 
     def seperateFilesByDate(self):
+        """
+        This method will separate a directory of thermal image files by their date of recording.
+        This method assumes that the files were recorded using the recorder scripts in the Non-Invasive-Ovulation Predictor Repo
+        Therefore the file names of these images would contain timestamps/dates in the file names.
+
+        :return: A dictionary with {Key:Value} Pairs of {Date string: List of images recorded for this date}
+        """
         finalDict = {}
         tempList = []
         currentTime = None
@@ -96,6 +109,10 @@ class fileData:
         self.datetime = datetime(year=year,month=month, day=day,hour=hour, minute=minute, second=second)
 
     def __parseFileName_noTime(self):
+        """
+        Same thing as the above private method, except for when the file name does not contain time stamps along side with the date
+        :return: Nothing
+        """
         fileNameParts = self.fileName.split(".")[0].split("_") # remove file extension then extract all parts of the file name
         if fileNameParts[0] == "clustered":
             fileNameParts.pop(0)
@@ -129,12 +146,17 @@ class fileData:
         return f"{self.fileName}, {self.fileNum}, {self.datetime}"
 
 def askDir():
+    """
+    Simply opens up a file dialog and returns the selected directory
+    :return: Absolute path of the selected directory as a string
+    """
     root = Tk()
     root.withdraw()
 
     dir = filedialog.askdirectory()
-    assert dir
+    assert os.path.isdir(dir)
     return dir
+
 def main():
     hasTime = False
     dir = askDir()
