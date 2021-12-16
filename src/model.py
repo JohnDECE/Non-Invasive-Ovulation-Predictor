@@ -178,7 +178,7 @@ class PredictorModel:
         # Chart formatting
         plt.xticks(x_ticks, x_labels)
         plt.plot(x_ticks, means, c='k')
-        plt.title("HMM Predictions using mostly good data")
+        plt.title("HMM Predictions using mostly good data") # Should change this to be robust
         ax.set_xlabel("Date")
         ax.set_ylabel("Daily Means")
         handles, labels = plt.gca().get_legend_handles_labels()
