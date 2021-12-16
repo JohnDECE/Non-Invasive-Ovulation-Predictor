@@ -15,8 +15,12 @@ class clusterMaker:
     def cluster(self, fileInd):
         """
         This function will perform k-means clustering on images.
-        :return: Both the original image and clustered version as numpy arrays.
+        This assumes K=4 clusters, depending on one's image quality and testing environment, then this may need to change.
+        We use a fixed seed for initializing the k-means algorithm so that between tests the results remain the same
+        if we give it the same input
+        :return: Clustered and segmented image as a numpy array.
         """
+        # Read in our image and perform clustering
         path = "/".join([self.directory, self.fileList[fileInd]])
 
         img = imread(path)
@@ -25,13 +29,19 @@ class clusterMaker:
 
         kmeans = KMeans(n_clusters=4, random_state=0).fit(reshaped)
 
+        # Below performs the image segmentation by removing the cluster with the lowest central mean
+        # An image has 3 channels since it is RGB, therefore each cluster will have 3 channels worth of means,
+        # We treat each cluster as one entity, thus we will do a simple sum across all of the channels and then find
+        # the lowest sum and remove it.
         tempsum = kmeans.cluster_centers_.sum(axis=1)
+
         clusterind = tempsum.argmin() # Retrieve the index of the cluster with the lowest values (coldest pixels)
 
         clustered = kmeans.cluster_centers_[kmeans.labels_] #Retrieve the clustered image
         clustered = clustered.reshape((-1,3)) #reshape back into the H x W, Layers shape
         clustered[kmeans.labels_ == clusterind] = [0, 0, 0] # Filter out the cold pixels
 
+        # The resulting clustered image array is reshaped back into the original image shape and then we return it
         clustered_3D = clustered.reshape(img.shape).astype('uint8')
         # img = img.astype('uint8')
 
